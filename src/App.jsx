@@ -1,5 +1,7 @@
 import axios from "axios"
+import { FaPlus } from "react-icons/fa6";
 import { useEffect, useState } from "react";
+
 
 function App() {
   const [allTypes, setAllTypes] = useState([]);
@@ -40,6 +42,7 @@ function App() {
   return (
     <>
       <div className="bg-black h-full py-8">
+     
         <h1 className="text-yellow-800 text-6xl text-center">Poke - World</h1>
         <div className="flex justify-center my-6">
           <select name="" id="" className="w-30 py-2 capitalize">
@@ -56,7 +59,8 @@ function App() {
         </div>
       </div>
 
-      <div className="bg-gray-900	">
+      <div className="bg-gray-900	relative">
+      <FaPlus className="text-white text-xl absolute bottom-16 right-16 cursor-pointer	bg-red-800 w-16 h-16 p-2 rounded-full" />
         <h1 className="text-white text-5xl text-center py-8">Pokemon-List</h1>
         <div className="flex flex-wrap gap-4 items-center justify-evenly px-10">
           {
