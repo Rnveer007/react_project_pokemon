@@ -9,22 +9,23 @@ function App() {
   const [displayPokemonsCopy, setDisplayPokemonscopy] = useState([])
   const [limit, setLimit] = useState(20);
   const [offset, setOffSet] = useState(0);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [searchPokemons, setSearchPokemons] = useState("")
 
 
   async function fetchAllTypes() {
-   try {
-    const response = await axios.get("https://pokeapi.co/api/v2/type?limit=21")
-    setAllTypes(response.data.results)
-    
-   } catch (error) {
-    console.log(error)
-   }
+    try {
+      const response = await axios.get("https://pokeapi.co/api/v2/type?limit=21")
+      setAllTypes(response.data.results)
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function show20Pokemons() {
     try {
-        setLoading(true)
+      setLoading(true)
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
       const temp = response.data.results
 
@@ -79,25 +80,46 @@ function App() {
     } catch (error) {
       console.log(error)
       setLoading(false)
-    }finally{
+    } finally {
       setLoading(false)
     }
+  }
+
+  function haldleSearchPokemons(event) {
+    try {
+      setSearchPokemons(event.target.value);
+      if (event.target.value === "") {
+        setDisplayPokemons(displayPokemonsCopy)
+      } else {
+        const filteredPokemons = displayPokemonsCopy.filter((pokemon) =>
+          pokemon.name.includes(event.target.value)
+        );
+        setDisplayPokemons(filteredPokemons);
+
+      }
+
+    } catch (error) {
+
+    }
+
   }
 
 
 
   return (
     <>
-
       <div className="bg-black h-full py-8">
         <h1 className="text-yellow-800 text-6xl text-center">Poke - World</h1>
         <div className="flex justify-center my-6">
 
           <select onChange={handleTypeChangeOfPokemon} name="" id="" className="w-30 py-2 capitalize cursor-pointer">
+            
             <option value="" disabled>
               Filter by type
             </option>
+           
             <option value="all">All Types</option>
+           
             {allTypes.map((object, index) => (
               <option key={index} value={object.name} className="capitalize">
                 {object.name}
@@ -109,6 +131,7 @@ function App() {
             type="text"
             placeholder="Search for Anything"
             className="w-80 py-2 pl-4 capitalize"
+            value={searchPokemons} onChange={haldleSearchPokemons}
           />
         </div>
       </div>
