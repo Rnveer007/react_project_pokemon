@@ -75,7 +75,7 @@ function App() {
           })
         })
         setDisplayPokemons(finalCopyOfPokemons)
-      }
+      };
 
     } catch (error) {
       console.log(error)
@@ -87,6 +87,7 @@ function App() {
 
   function haldleSearchPokemons(event) {
     try {
+      setLoading(true)
       setSearchPokemons(event.target.value);
       if (event.target.value === "") {
         setDisplayPokemons(displayPokemonsCopy)
@@ -95,11 +96,12 @@ function App() {
           pokemon.name.includes(event.target.value)
         );
         setDisplayPokemons(filteredPokemons);
-
       }
-
     } catch (error) {
       console.log(error)
+      setLoading(false)
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -138,7 +140,7 @@ function App() {
 
         <FaPlus
           onClick={() => setOffSet((prevOffset) => prevOffset + limit)}
-          className="text-white text-xl fixed bottom-16 right-16 cursor-pointer bg-red-800 w-16 h-16 p-2 rounded-full"
+          className="text-white text-xl fixed bottom-16 right-8 cursor-pointer bg-red-800 w-16 h-16 p-2 rounded-full"
         />
         <h1 className="text-white text-5xl text-center py-8">Pokemon-List</h1>
 
@@ -166,12 +168,13 @@ function App() {
                   {object.types.map((obj) => obj.type.name).join(", ")}
                 </p>
               </div>
-            ))}
+            ))};
+
           </div>
         )}
       </div>
     </>
   );
-}
+};
 
 export default App;
