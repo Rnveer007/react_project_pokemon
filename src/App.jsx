@@ -2,7 +2,6 @@ import axios from "axios"
 import { FaPlus } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 
-
 function App() {
   const [allTypes, setAllTypes] = useState([]);
   const [displayPokemons, setDisplayPokemons] = useState([]);
@@ -12,7 +11,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [searchPokemons, setSearchPokemons] = useState("")
 
-
   async function fetchAllTypes() {
     try {
       const response = await axios.get("https://pokeapi.co/api/v2/type?limit=21")
@@ -21,13 +19,13 @@ function App() {
     } catch (error) {
       console.log(error)
     }
-  }
+  };
 
   async function show20Pokemons() {
     try {
       setLoading(true)
       const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
-      const temp = response.data.results
+      const temp = response.data.results;
 
       const promises = [];
 
@@ -54,7 +52,7 @@ function App() {
     finally {
       setLoading(false)
     }
-  }
+  };
 
   useEffect(() => { fetchAllTypes() }, []);
 
@@ -62,26 +60,23 @@ function App() {
 
   function handleTypeChangeOfPokemon(event) {
     try {
-      setLoading(true)
-      const copyPokemons = displayPokemonsCopy
-      const finalCopyOfPokemons = [];
-
-      if (event.target.value === "all") {
+      setLoading(true);
+      const selectedType = event.target.value;
+      const copyPokemons = displayPokemonsCopy;
+  
+      if (selectedType === "all") {
         setDisplayPokemons(copyPokemons);
       } else {
-        copyPokemons.forEach((objects) => {
-          objects.types.forEach((obj) => {
-            if (obj.type.name === event.target.value) { finalCopyOfPokemons.push(objects) }
-          })
-        })
-        setDisplayPokemons(finalCopyOfPokemons)
-      };
-
+        const finalCopyPokemons = copyPokemons.filter((pokemon) => 
+          pokemon.types.some((obj) => obj.type.name === selectedType)
+        );
+        setDisplayPokemons(finalCopyPokemons);
+      }
     } catch (error) {
-      console.log(error)
-      setLoading(false)
+      console.log(error);
+      setLoading(false);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -135,7 +130,6 @@ function App() {
         </div>
       </div>
 
-
       <div className="bg-gray-900 relative">
 
         <FaPlus
@@ -143,7 +137,6 @@ function App() {
           className="text-white text-xl fixed bottom-16 right-8 cursor-pointer bg-red-800 w-16 h-16 p-2 rounded-full"
         />
         <h1 className="text-white text-5xl text-center py-8">Pokemon-List</h1>
-
 
         {loading ? (
           <div>
